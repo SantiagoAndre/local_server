@@ -1,8 +1,15 @@
 import SimpleHTTPServer
 import SocketServer
 import cgi
-PORT = 8000
+# tenes que crear otro archivo arduino.py en donde tengas todas las funciones que ya habiamos hecho
+import arduino
+#variables globales
+PORT = 8002
+personas = {"W","X","Y","Z"}
 votos_persona ={"W":1,"X":2,"Y":3,"Z":4}
+LEDS = arduino.init_leds(13,14,15,16)#13,14,15,16 pines de los leds
+LEDS =  dict(zip(personas,LEDS))
+DISPLAY = arduino.Display(0,1,2,3,4,5,6)#pines del display
 class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 	def do_GET(self):
 		if self.path == '/':
@@ -17,28 +24,27 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             environ={'REQUEST_METHOD':'POST',
                      'CONTENT_TYPE':self.headers['Content-Type'],
                      })
-		for i in form.keys():
-			print i
-			print form[i].value
 		if "cbxW" in form:
-			#LED["W"].write(True)
 			total_votos += votos_persona["W"]
-			#form_votacion.votoW.data = True
 		if "cbxX" in form:
+			#LED["X"].write(True)
 			total_votos += votos_persona["X"]
-			#form_votacion.votoX.data = True
+
 		if "cbxY" in form:
+			#LED["Y"].write(True)
 			total_votos += votos_persona["Y"]
-			#form_votacion.votoY.data = True
 		if "cbxZ" in form:
+			#LED["Z"].write(True)
 			total_votos += votos_persona["Z"]
-			#form_votacion.votoZ.data = True
-		print "el total de votos es: ",total_votos
+		DISPLAY.write(total_votos)
 		return self.do_GET()
 
-
-Handler = MyHandler
-httpd = SocketServer.TCPServer(("", PORT), Handler)
-print "serving at port", PORT
-httpd.serve_forever()
-
+try:
+	Handler = MyHandler
+	httpd = SocketServer.TCPServer(("", PORT), Handler)
+	print "serving at port", PORT
+	httpd.serve_forever()
+except KeyboardInterrupt:
+	pines = [LEDS[persona] for persona in LEDS.keys()]
+	arduino.off_pines(pines)
+	print "adios"
