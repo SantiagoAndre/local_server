@@ -25,17 +25,30 @@ class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                      'CONTENT_TYPE':self.headers['Content-Type'],
                      })
 		if "cbxW" in form:
+			#LED["W"].write(True)
 			total_votos += votos_persona["W"]
+		else:
+			pass ##bora el pass y descomenta la sieguiente linea
+			#LED["W"].write(False)
 		if "cbxX" in form:
 			#LED["X"].write(True)
 			total_votos += votos_persona["X"]
+		else:
+			pass ##bora el pass y descomenta la sieguiente linea
+			#LED["X"].write(False)
 
 		if "cbxY" in form:
 			#LED["Y"].write(True)
 			total_votos += votos_persona["Y"]
+		else:
+			pass ##bora el pass y descomenta la sieguiente linea
+			#LED["Y"].write(False)
 		if "cbxZ" in form:
 			#LED["Z"].write(True)
 			total_votos += votos_persona["Z"]
+		else:
+			pass ##bora el pass y descomenta la sieguiente linea
+			#LED["Z"].write(False)
 		DISPLAY.write(total_votos)
 		return self.do_GET()
 
