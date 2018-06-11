@@ -1,0 +1,22 @@
+<meta http-equiv="Content-Type"  content="text/html charset=UTF-8" />
+<html>
+<body>
+	<h1 align="center">Votaciones de la reunion</h1></body>
+	{%from "_macro.html" import render_field %}
+	<form>
+		<div>
+			{{form.votoW() }} {{form.votoW.label}}
+		</div>
+		<div>
+			{{form.votoX() }} {{form.votoX.label}}
+		</div>
+		<div>
+			{{form.votoY() }} {{form.votoY.label}}
+		</div>
+		<div>
+			{{form.votoZ() }} {{form.votoZ.label}}
+		</div>
+		<p>{{form.submit()}}</p>
+	</form>
+</body>
+</html>
