@@ -1,23 +1,21 @@
 import mraa
-
+def init_led(pin):
+	LED = mraa.Gpio(pin)
+	LED.dir(mraa.DIR_OUT)
+	return LED
+def init_pul(pin):
+	PUL = mraa.Gpio(pin)
+	PUL.dir(mraa.DIR_IN)
+	return PUL
+def off_pin(pin):
+	pin.write(False)
 def init_leds(*pines):
-	LEDS = []
-	for pin in pines:
-		LED = mraa.Gpio(pin)
-		LED.dir(mraa.DIR_OUT)
-		LEDS.append(LED)
-	return LEDS
+	return [init_led(pin) for pin in pines] # lita intencional
 def init_puls(*pines):
-	PULS = []
-	for pin in pines:
-		PUL = mraa.Gpio(pin)
-		PUL.dir(mraa.DIR_IN)
-		PULS.append(PUL)
-	return PULS
+	return [init_pul(pin) for pin in pines] # lita intencional
 def off_pines(*pines):
-	for pin in display:
-		pin.enable(False)
-		pin.write(0)
+	for pin in pines:
+		off_pin(pin)
 class Display():
 	def __init__(self,A,B,C,D,E,F,G):
 		[self.A,self.B,self.C,self.D,self.E,self.F,self.G]= init_leds(A,B,C,D,E,F,G)
@@ -55,7 +53,6 @@ class Display():
 		self.E.write(0)
 		self.F.write(0)
 		self.G.write(0)
-		#aqui tenes que hacer el numero uno en el display, solo que ahora no es A sino que self.A
 	def dos(self):
 		print "dos"
 		self.A.write(1)
@@ -124,7 +121,7 @@ class Display():
 		self.A.write(1)
 		self.B.write(1)
 		self.C.write(1)
-		self.D.write(0)
+		self.D.write(1)
 		self.E.write(0)
 		self.F.write(1)
 		self.G.write(1)
